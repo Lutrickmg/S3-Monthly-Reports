@@ -1,0 +1,171 @@
+---
+output:
+  html_document:
+    css: custom.css
+  pdf_document: default
+  word_document: default
+---
+```{r sources, echo=F}
+  library(pander)
+  source('~/Dropbox/R/Quarterly Reports/Output/Quarterly_Report.R')
+  options(scipen=999)
+```
+
+# `r Company`
+
+---
+
+## New Patients: `r nrow(unique(new.patients))`
+```{r echo=FALSE}
+  #NO TOUCHING
+  working.patients <- new.patients
+```
+```{r new.patient.insurance, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+    if(nrow(unique(new.patients)) > 0) {
+      new.patients.insurance.chart
+    }
+```
+```{r new.patient.contact, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+    if(nrow(unique(new.patients)) > 0) {
+      new.patients.contact.type.chart
+    }
+```
+```{r new.patients.eligibility, fig.width=7, fig.height=4, echo=FALSE}
+    if(nrow(unique(new.patients)) > 0) {
+      new.patients.eligibility.dates.chart
+    }
+```
+```{r new.patients.sleep.coach, fig.width=7, fig.height=4, echo=FALSE}
+    if(nrow(unique(new.patients)) > 0) {
+      new.patients.sleep.coach.bar.chart
+    }
+```
+
+---
+
+## Patients: `r nrow(unique(patients))`
+```{r echo=FALSE}
+  #NO TOUCHING
+  working.patients <- patients
+```
+```{r patient.insurance, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+  patients.insurance.chart
+```
+```{r patient.contact, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+  patients.contact.type.chart
+```  
+```{r patient.eligibility.date, fig.width=7, fig.height=4, echo=FALSE}
+  patients.eligibility.dates.chart
+```
+```{r patient.sleep.coach, fig.width=7, fig.height=4, echo=FALSE}
+  patients.sleep.coach.bar.chart
+```
+
+---
+
+## Contacts: `r nrow(unique(contacts))`
+```{r contact.type, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+  contacts.types.chart
+```
+```{r contact.sleep.coaches, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+  contacts.sleep.coach.chart
+```  
+```{r contact.date, fig.width=7, fig.height=4, echo=FALSE}
+  contacts.dates.chart
+```
+```{r contact.table, fig.width=7, fig.height=4, echo=FALSE}
+  #contacts.table
+```
+
+---
+
+## Orders: `r nrow(unique(orders))`
+### Approximate Revenue: $`r sum(orders$Potential.Revenue)/100`
+```{r order.sleep.coach, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+  orders.sleep.coach.chart
+```
+```{r order.status, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+  orders.status.chart
+```
+```{r order.date.chart, fig.width=7, fig.height=4, echo=FALSE}
+  orders.order.date.chart
+```
+```{r order.revenue.date.chart, fig.width=7, fig.height=4, echo=FALSE}
+  orders.revenue.date.chart
+```
+
+---
+
+## New Patients Tables: `r nrow(unique(new.patients))`
+```{r echo=FALSE}
+  #NO TOUCHING
+  working.patients <- new.patients
+```
+```{r new.patient.insurance.type.table, echo=FALSE, comment=NA}
+  if(nrow(unique(new.patients)) > 0) {
+    row.names(new.patients.insurance.type.table) <- NULL
+    pander(new.patients.insurance.type.table, justify = c('left', 'right'))
+  }
+```
+```{r new.patient.contact.type.table, echo=FALSE, comment=NA}
+  if(nrow(unique(new.patients)) > 0) {
+    row.names(new.patients.contact.type.table) <- NULL
+    pander(new.patients.contact.type.table, justify = c('left', 'right'))
+  }
+```
+```{r new.patients.sleep.coach.table, echo=FALSE, comment=NA}
+  if(nrow(unique(new.patients)) > 0) {
+    row.names(new.patients.sleep.coach.table) <- NULL
+    pander(new.patients.sleep.coach.table, justify = c('left', 'right'))
+  }
+```
+
+---
+
+## Patients Tables: `r nrow(unique(patients))`
+```{r echo=FALSE}
+  #NO TOUCHING
+  working.patients <- patients
+```
+```{r patient.insurance.type.table, echo=FALSE, comment=NA}
+  row.names(patients.insurance.type.table) <- NULL
+  pander(patients.insurance.type.table, justify = c('left', 'right'))
+```
+```{r patient.contact.type.table, echo=FALSE, comment=NA}
+  row.names(patients.contact.type.table) <- NULL
+  pander(patients.contact.type.table, justify = c('left', 'right'))
+```
+```{r patients.sleep.coach.table, echo=FALSE, comment=NA}
+  row.names(patients.sleep.coach.table) <- NULL
+  pander(patients.sleep.coach.table, justify = c('left', 'right'))
+```
+
+---
+
+## Contacts Tables: `r nrow(unique(contacts))`
+```{r contacts.type.table, echo=FALSE, comment=NA}
+  row.names(contacts.type.table) <- NULL
+  pander(contacts.type.table, justify = c('left', 'right'))
+```
+```{r contacts.sleep.coach.table, echo=FALSE, comment=NA}
+  row.names(contacts.sleep.coach.table) <- NULL
+  pander(contacts.sleep.coach.table, justify = c('left', 'right'))
+```
+
+---
+
+## Orders Tables: `r nrow(unique(orders))`
+```{r orders.status.table, echo=FALSE, comment=NA}
+  row.names(orders.status.table) <- NULL
+  pander(orders.status.table, justify = c('left', 'right'))
+```
+```{r orders.sleep.coach.table, echo=FALSE, comment=NA}
+  row.names(orders.sleep.coach.table) <- NULL
+  pander(orders.sleep.coach.table, justify = c('left', 'right'))
+```
+```{r orders.items.table, echo=FALSE, comment=NA}
+  row.names(orders.items.table) <- NULL
+  pander(orders.items.table, justify = c('left', 'right'))
+```
+
+---

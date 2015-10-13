@@ -1,0 +1,94 @@
+---
+output:
+  html_document:
+    css: custom.css
+  pdf_document: default
+  word_document: default
+---
+```{r sources, echo=F}
+  library(pander)
+  source('~/Dropbox/R/Quarterly Reports/Output/Quarterly_Report.R')
+  options(scipen=999)
+```
+<!--- Name of Current Company. Set in the Quarterly_Report.R file. -->
+# `r Company`
+
+<!--- Output the number of unique orders, the sum of all the non-new order's revenue, and the average revenue across those orders. -->
+## Orders: `r nrow(unique(orders))`
+### Approximate Potential Revenue: $`r format(round(sum(orders[orders$Status != 'rejected', 'Potential.Revenue'])/100, 2), nsmall = 2)`
+### Approximate Revenue Per Order: $`r format(round(sum(orders[!(orders$Status %in% c('new', 'rejected')), 'Potential.Revenue'])/100/nrow(unique(orders[!(orders$Status %in% c('new', 'rejected')),])), 2), nsmall = 2)`
+```{r orders.items.table, echo=FALSE, comment=NA}
+  row.names(orders.items.table) <- NULL
+  pander(orders.items.table, justify = c('left', 'right'))
+```
+```{r order.status,  fig.width=7, fig.height=4, echo=FALSE}
+  orders.status.chart
+```
+```{r orders.status.table, echo=FALSE, comment=NA}
+  row.names(orders.status.table) <- NULL
+  pander(orders.status.table.expanded, justify = c('left', 'center', 'right'))
+```
+```{r order.date.chart, fig.width=7, fig.height=4, echo=FALSE}
+  orders.order.date.chart
+```
+```{r order.revenue.date.chart, fig.width=7, fig.height=4, echo=FALSE}
+  orders.revenue.date.chart
+```
+
+---
+
+## Patients: `r nrow(unique(patients))`
+```{r echo=FALSE}
+  #NO TOUCHING
+  working.patients <- patients
+```
+```{r patient.insurance, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+  patients.insurance.chart
+```
+```{r patient.contact, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+  patients.contact.type.chart
+```  
+```{r patient.insurance.type.table, echo=FALSE, comment=NA}
+  row.names(patients.insurance.type.table) <- NULL
+  pander(patients.insurance.type.table, justify = c('left', 'right'))
+```
+```{r patient.contact.type.table, echo=FALSE, comment=NA}
+  row.names(patients.contact.type.table) <- NULL
+  pander(patients.contact.type.table, justify = c('left', 'right'))
+```
+
+---
+
+## New Patients: `r nrow(unique(new.patients))`
+```{r echo=FALSE}
+  #NO TOUCHING
+  working.patients <- new.patients
+```
+```{r new.patient.insurance, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+    if(nrow(unique(new.patients)) > 0) {
+      new.patients.insurance.chart
+    }
+```
+```{r new.patient.contact, out.width=c('350px', '300px'), fig.show='hold', echo=FALSE}
+    if(nrow(unique(new.patients)) > 0) {
+      new.patients.contact.type.chart
+    }
+```
+```{r new.patient.insurance.type.table, echo=FALSE, comment=NA}
+  if(nrow(unique(new.patients)) > 0) {
+    row.names(new.patients.insurance.type.table) <- NULL
+    pander(new.patients.insurance.type.table, justify = c('left', 'right'))
+  }
+```
+```{r new.patient.contact.type.table, echo=FALSE, comment=NA}
+  if(nrow(unique(new.patients)) > 0) {
+    row.names(new.patients.contact.type.table) <- NULL
+    pander(new.patients.contact.type.table, justify = c('left', 'right'))
+  }
+```
+```{r new.patients.eligibility, fig.width=7, fig.height=4, echo=FALSE}
+    if(nrow(unique(new.patients)) > 0) {
+      new.patients.eligibility.dates.chart
+    }
+```
+---
